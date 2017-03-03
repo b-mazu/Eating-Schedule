@@ -12,3 +12,6 @@ As loged
 Product list menu
 
 ![enter image description here](https://zapodaj.net/images/82975534e7d17.png)
+
+
+![Product list menu](https://zapodaj.net/images/82975534e7d17.png)
