@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mazurekb.controllers.ProfileController">
+   <children>
+      <Button fx:id="subButton" layoutX="189.0" layoutY="270.0" mnemonicParsing="false" onAction="#subChanges" text="Submit" />
+      <PasswordField fx:id="passField" disable="true" layoutX="100.0" layoutY="88.0" />
+      <TextField fx:id="userTextField" disable="true" layoutX="100.0" layoutY="53.0" />
+      <Label layoutX="33.0" layoutY="57.0" text="Username" />
+      <Label layoutX="33.0" layoutY="92.0" text="Password" />
+      <Label layoutX="33.0" layoutY="127.0" text="Email" />
+      <TextField fx:id="emailTextField" layoutX="100.0" layoutY="123.0" />
+      <Button layoutX="42.0" layoutY="343.0" mnemonicParsing="false" onAction="#getBack" text="Back" />
+      <Label fx:id="substatus" layoutX="101.0" layoutY="310.0" text="" />
+      <Label layoutX="33.0" layoutY="163.0" text="Age" />
+      <TextField fx:id="ageTextField" layoutX="100.0" layoutY="159.0" />
+      <Label layoutX="33.0" layoutY="197.0" text="Height" />
+      <TextField fx:id="heightTextField" layoutX="100.0" layoutY="193.0" />
+      <Label layoutX="33.0" layoutY="232.0" text="Weight" />
+      <TextField fx:id="weightTextField" layoutX="100.0" layoutY="228.0" />
+      <Label layoutX="258.0" layoutY="197.0" text="cm" />
+      <Label layoutX="258.0" layoutY="232.0" text="kg" />
+      <Label layoutX="88.0" layoutY="24.0" text="Change you profile info" />
+   </children>
+</Pane>

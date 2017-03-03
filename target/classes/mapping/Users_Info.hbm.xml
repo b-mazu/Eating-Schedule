@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.mazurekb.sql.Users" table="Users">
+        <id name="id" type="long">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="username" type="string" unique = "true" not-null= "true">
+            <column name="Username" />
+        </property>
+        
+         <property name="password" type="string" unique = "true" not-null= "true">
+            <column name="Password" />
+        </property>
+        
+         <property name="email" type="string">
+            <column name="Email" />
+        </property>
+    </class>
+</hibernate-mapping>
