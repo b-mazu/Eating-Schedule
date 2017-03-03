@@ -11,6 +11,7 @@ import com.mazurekb.main.HibernateUtil;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -20,11 +21,13 @@ import javafx.scene.layout.Pane;
 public class LoginController {
 
 	private MainController mainController;
-	private ProfileController profileController;
+	
 	@FXML
 	private TextField username;
 	@FXML
 	private PasswordField password;
+	@FXML
+	private Label loginStatus;
 
 	public static String username_input;
 	public static String password_input;
@@ -82,6 +85,7 @@ public class LoginController {
 			HibernateUtil.shutdown();
 			return true;
 		} else {
+			loginStatus.setText("Wrong login or password!");
 			HibernateUtil.shutdown();
 			return false;
 		}
