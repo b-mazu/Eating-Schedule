@@ -29,14 +29,9 @@
 
 
 		<!-- Annotated entity classes -->
-		<mapping class="com.mazurekb.sql.Users" />
-		
-		<mapping class="com.mazurekb.sql.MeatProducts" />
-		<mapping class="com.mazurekb.sql.DiaryProducts" />
-		<mapping class="com.mazurekb.sql.BakeryProducts" />
-		<mapping class="com.mazurekb.sql.BeverageProducts" />
-		<mapping class="com.mazurekb.sql.SnackProducts" />
-		<mapping class="com.mazurekb.sql.OtherProducts" />
+		<mapping class="com.mazurekb.sql.Users" />		
+		<mapping class="com.mazurekb.sql.Products" />
+
 
 	</session-factory>
 </hibernate-configuration>

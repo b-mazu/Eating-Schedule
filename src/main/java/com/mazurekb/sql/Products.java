@@ -11,11 +11,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Products")
-//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-public abstract class Products {
+public class Products {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	@Column(nullable = false, unique = true)
@@ -24,6 +23,16 @@ public abstract class Products {
 	private float fat;
 	private float carbohydrates;
 	private float protein;
+	private String productType;
+	
+	
+	public String getProductType() {
+		return productType;
+	}
+
+	public void setProductType(String productType) {
+		this.productType = productType;
+	}
 
 	public long getId() {
 		return id;
