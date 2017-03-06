@@ -15,6 +15,7 @@ public class AppMenuController {
 	@FXML
 	private ProfileController profileController;
 
+
 	public void setMainController(MainController mainController) {
 		this.mainController = mainController;
 		DatePickerController.calculateBMI();
@@ -55,6 +56,16 @@ public class AppMenuController {
 
 	@FXML
 	public void openCreateMeal() {
+		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/CreateMeal.fxml"));
+		Pane pane = null;
+		try {
+			pane = loader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		CreateMealController createMealController = loader.getController();
+		createMealController.setMainController(mainController);
+		mainController.setScreen(pane);
 	}
 
 	@FXML
