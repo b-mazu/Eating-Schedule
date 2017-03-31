@@ -9,7 +9,7 @@ STILL TO DO: Schedule
 
 Login panel
 
-![enter image description here](https://zapodaj.net/images/7f6dec1e8ed41.png)
+![enter image description here](https://zapodaj.net/images/c4ab323edfb15.png)
 
 As loged
 
