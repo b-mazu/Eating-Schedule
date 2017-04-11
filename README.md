@@ -7,6 +7,10 @@ The application allows you to create an account, log on to and manage a list of 
 
 STILL TO DO: Schedule
 
+Login panel
+
+![enter image description here](https://zapodaj.net/images/c4ab323edfb15.png)
+
 As loged
 
 ![enter image description here](https://zapodaj.net/images/bbea335042e6a.png)
