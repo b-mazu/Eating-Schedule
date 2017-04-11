@@ -26,8 +26,9 @@
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="89.0" prefWidth="401.0" SplitPane.resizableWithParent="false">
            <fx:include fx:id="DatePicker" source="DatePicker.fxml" />
            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="192.0" prefWidth="451.0" SplitPane.resizableWithParent="false" />
-            
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="192.0" prefWidth="451.0" SplitPane.resizableWithParent="false">
+          <fx:include fx:id="MenuSchedule" source="MenuSchedule.fxml" />
+            </AnchorPane>
         </items>
       </SplitPane>
    </children>

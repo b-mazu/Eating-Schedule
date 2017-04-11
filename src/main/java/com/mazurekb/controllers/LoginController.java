@@ -1,6 +1,8 @@
 package com.mazurekb.controllers;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,6 +30,7 @@ public class LoginController {
 	private PasswordField password;
 	@FXML
 	private Label loginStatus;
+	private DatePickerController datePicker;
 
 	public static String username_input;
 	public static String password_input;
@@ -41,6 +44,7 @@ public class LoginController {
 	}
 
 	public void setMainController(MainController mainController) {
+		
 		this.mainController = mainController;
 	}
 

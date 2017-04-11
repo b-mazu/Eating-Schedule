@@ -32,6 +32,7 @@
 		<mapping class="com.mazurekb.sql.Users" />		
 		<mapping class="com.mazurekb.sql.Products" />
 		<mapping class="com.mazurekb.sql.Meals" />
+		<mapping class="com.mazurekb.sql.Schedule" />
 
 
 	</session-factory>

@@ -83,7 +83,7 @@ public class CreateMealController {
 		this.mainController = mainController;
 		choiceBox();
 		fillTreeView();
-		//updateButton();
+		// updateButton();
 		info.setText("");
 	}
 
@@ -175,8 +175,14 @@ public class CreateMealController {
 
 	@FXML
 	public void addProduct() {
-		last_selected = getSelectedMealValue();
-		if (selected_product != null) {
+
+		if (selected_product != null && getSelectedMealValue() != null) {
+
+			if (!getParent().equals("null"))
+				last_selected = getParent();
+			else
+				last_selected = getSelectedMealValue();
+
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			Query query = session.createNativeQuery("INSERT INTO meal_products (meal_id,product_id) VALUES('"
@@ -186,14 +192,16 @@ public class CreateMealController {
 			session.getTransaction().commit();
 			HibernateUtil.shutdown();
 			fillTreeView();
-		} else
-			info.setText("No product was picked!");
 
+		} else
+			info.setText("No product or meal was picked!");
 	}
 
 	@FXML
 	public void deleteProduct() {
-		if (getParent() != "null") {
+		if (TreeView.getSelectionModel().isEmpty() || getParent().equals("null")) {
+			info.setText("Pick product to remove it from Meal list!");
+		} else if (!getParent().equals("null")) {
 			String lastSelectedProduct = getSelectedMealValue();
 			last_selected = getParent();
 
@@ -206,15 +214,17 @@ public class CreateMealController {
 			session.getTransaction().commit();
 			HibernateUtil.shutdown();
 			fillTreeView();
-		} else
-			info.setText("Pick product to remove it from Meal list!");
+		}
 	}
 
 	public String getParent() {
-
-		TreeItem<String> item = (TreeItem<String>) TreeView.getSelectionModel().getSelectedItem();
-		String parent = item.getParent().toString().substring(18, item.getParent().toString().length() - 2);
-		return parent;
+		if (!TreeView.getSelectionModel().isEmpty()) {
+			TreeItem<String> item = (TreeItem<String>) TreeView.getSelectionModel().getSelectedItem();
+			String parent = item.getParent().toString().substring(18, item.getParent().toString().length() - 2);
+			System.out.println("test: " + parent);
+			return parent;
+		} else
+			return null;
 
 	}
 
@@ -251,19 +261,21 @@ public class CreateMealController {
 	}
 
 	private String getSelectedMealValue() {
-		String item = TreeView.getSelectionModel().getSelectedItem().toString();
-		String substring = item.substring(18, item.length() - 2);
-		return substring;
+		if (!TreeView.getSelectionModel().isEmpty()) {
+			System.out.println(TreeView.getSelectionModel().getSelectedItem().toString());
+
+			String item = TreeView.getSelectionModel().getSelectedItem().toString();
+			String substring = item.substring(18, item.length() - 2);
+			return substring;
+		} else
+			return null;
 	}
 
-	/*
-	 * Method updates selected product in database by given data in TextFields
-	 */
-	@FXML
-	private void updateButton() {
+	public void tes1() {
 		TreeView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue ov, Number value, Number new_value) {
 				if (getSelectedMealValue() != null && getParent().equals("null")) {
+
 					mealName.setText(getSelectedMealValue());
 				}
 			}
@@ -271,11 +283,32 @@ public class CreateMealController {
 	}
 
 	/*
+	 * Method updates selected product in database by given data in TextFields
+	 */
+	@FXML
+	private void updateButton() {
+		
+		String getMealName = mealName.getText();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createNativeQuery("UPDATE Meals name = '" + getMealName + "' WHERE meal_id ="
+				+ converter("id", "meals", "name", getSelectedMealValue()));
+		query.executeUpdate();
+		
+		query.executeUpdate();
+		session.getTransaction().commit();
+		HibernateUtil.shutdown();
+		fillTreeView();
+	}
+
+	/*
 	 * Method deletes selected product from database
 	 */
 	@FXML
 	private void deleteButton() {
-		if (getSelectedMealValue() != null && getParent().equals("null")) {
+		if (TreeView.getSelectionModel().isEmpty()) {
+			info.setText("Pick meal or product which you wanna remove!");
+		} else if (getSelectedMealValue() != null && getParent().equals("null")) {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			Query query = session.createNativeQuery("DELETE FROM meal_products WHERE meal_id ="
@@ -287,7 +320,8 @@ public class CreateMealController {
 			HibernateUtil.shutdown();
 			fillTreeView();
 			info.setText("Meal deleted!");
-		} else if (getParent() != "null") {
+
+		} else if (!getParent().equals("null")) {
 
 			String lastSelectedProduct = getSelectedMealValue();
 			last_selected = getParent();
@@ -302,8 +336,8 @@ public class CreateMealController {
 			HibernateUtil.shutdown();
 			info.setText("Product removed from Meal");
 			fillTreeView();
-		} else
-			info.setText("Pick meal or product which you wanna remove!");
+		}
+
 	}
 
 	/*

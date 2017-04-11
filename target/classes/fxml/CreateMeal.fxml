@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mazurekb.controllers.CreateMealController">
+   <children>
+      <Button layoutX="35.0" layoutY="346.0" mnemonicParsing="false" onAction="#getBack" text="Back" />
+      <Button fx:id="updateButton" layoutX="157.0" layoutY="309.0" mnemonicParsing="false" onAction="#updateButton" text="Update" />
+      <Button fx:id="addButton" layoutX="219.0" layoutY="309.0" mnemonicParsing="false" onAction="#addButton" text="Add" />
+      <ChoiceBox fx:id="productChoiceBox1" layoutX="429.0" layoutY="27.0" prefHeight="25.0" prefWidth="118.0" />
+      <Label layoutX="347.0" layoutY="31.0" text="Product type:" />
+      <Button layoutX="98.0" layoutY="309.0" mnemonicParsing="false" onAction="#deleteButton" text="Delete" />
+      <Label fx:id="info" layoutX="61.0" layoutY="31.0" text="Label" />
+      <ListView fx:id="listView" layoutX="347.0" layoutY="65.0" prefHeight="200.0" prefWidth="200.0" />
+      <TextField fx:id="mealName" layoutX="138.0" layoutY="275.0" prefHeight="25.0" prefWidth="118.0" />
+      <Label layoutX="65.0" layoutY="279.0" text="Meal name:" />
+      <TreeView fx:id="TreeView" layoutX="57.0" layoutY="65.0" prefHeight="200.0" prefWidth="200.0" />
+      <Button layoutX="275.0" layoutY="129.0" mnemonicParsing="false" onAction="#addProduct" prefHeight="25.0" prefWidth="50.0" text="&lt;---" />
+      <Button layoutX="275.0" layoutY="165.0" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="25.0" prefWidth="50.0" text="---&gt;" />
+      <Label layoutX="350.0" layoutY="275.0" text="Product name:" />
+      <Label layoutX="350.0" layoutY="295.0" text="Kcal:" />
+      <Label layoutX="350.0" layoutY="315.0" text="Protein:" />
+      <Label layoutX="350.0" layoutY="335.0" text="Fat:" />
+      <Label layoutX="350.0" layoutY="355.0" text="Carbohydrates:" />
+      <Label fx:id="productNameField" layoutX="460.0" layoutY="275.0" text="Label" />
+      <Label fx:id="kcalField" layoutX="460.0" layoutY="295.0" text="Label" />
+      <Label fx:id="proteinField" layoutX="460.0" layoutY="315.0" text="Label" />
+      <Label fx:id="fatField" layoutX="460.0" layoutY="335.0" text="Label" />
+      <Label fx:id="carboField" layoutX="460.0" layoutY="355.0" text="Label" />
+   </children>
+</Pane>
