@@ -2,7 +2,6 @@ package com.mazurekb.controllers;
 
 import java.math.BigInteger;
 import java.sql.Time;
-import java.time.LocalDate;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -21,14 +20,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class MenuScheduleController {
 
 	@FXML
-	public TableView<Schedule> TableView = new TableView<Schedule>();
+	private TableView<Schedule> TableView = new TableView<Schedule>();
 	@FXML
-	public TableColumn<Schedule, Time> timeTable = new TableColumn<Schedule, Time>("time");
+	private TableColumn<Schedule, Time> timeTable = new TableColumn<Schedule, Time>("time");
 	@FXML
-	public TableColumn<Schedule, String> mealsTable = new TableColumn<Schedule, String>("productName");
+	private TableColumn<Schedule, String> mealsTable = new TableColumn<Schedule, String>("productName");
 
 	
-	public ObservableList<Schedule> data = FXCollections.observableArrayList();
+	private ObservableList<Schedule> data = FXCollections.observableArrayList();
 
 	public void getSchedule() {	
 		if (DatePickerController.pickedDate != null) {
@@ -64,7 +63,7 @@ public class MenuScheduleController {
 		}
 	}
 
-	public long selectUserID() {
+	private long selectUserID() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Query query = session
@@ -76,9 +75,8 @@ public class MenuScheduleController {
 	}
 	
 	@FXML
-	public void button(){
+	private void button(){
 		getSchedule();
 	}
 	
-
 }

@@ -7,12 +7,12 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="363.0" prefWidth="453.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mazurekb.controllers.MenuScheduleController">
    <children>
-      <TableView fx:id="TableView" prefHeight="323.0" prefWidth="453.0">
+      <TableView fx:id="TableView" prefHeight="323.0" prefWidth="452.0">
         <columns>
           <TableColumn fx:id="timeTable" prefWidth="75.0" text="Time" />
           <TableColumn fx:id="mealsTable" prefWidth="377.0" text="Meals" />
         </columns>
       </TableView>
-      <Button layoutX="175.0" layoutY="324.0" mnemonicParsing="false" onAction="#button" text="Button" />
+      <Button layoutX="186.0" layoutY="330.0" mnemonicParsing="false" onAction="#button" text="Show Meals" />
    </children>
 </Pane>

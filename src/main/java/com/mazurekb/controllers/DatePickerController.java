@@ -6,10 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import com.mazurekb.main.HibernateUtil;
-import com.mazurekb.sql.Schedule;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.DatePicker;
@@ -23,20 +19,12 @@ public class DatePickerController {
 	private Label name;
 	@FXML
 	private Label bmi;
-	public MenuScheduleController menuSchedule = new MenuScheduleController();
 	public static LocalDate pickedDate;
-	public Schedule schedule;
 
-	@FXML
-	public void button(){
-		menuSchedule.getSchedule();
-	}
+
 	@FXML
 	public void getDate() {
 		pickedDate = calendar.getValue();
-		menuSchedule.getSchedule();
-		System.out.println(menuSchedule.data);
-		menuSchedule.ref();
 	}
 
 	public void calculateBMI() {
