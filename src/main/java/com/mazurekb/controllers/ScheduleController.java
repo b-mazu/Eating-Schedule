@@ -64,19 +64,26 @@ public class ScheduleController {
 
 	private static TreeItem<String> rootItem = new TreeItem<String>();
 	private static List<String> ifSelected = new ArrayList<String>();
+	
+	private ObservableList data = FXCollections.observableArrayList();
 
 	public void setMainController(MainController mainController) {
 		this.mainController = mainController;
-		tes1();
+		observableMealValue();
 		getSelectedSchedule();
 		choiceBox();
 		fillTreeView();
 	}
 
+
 	private void clear() {
 		rootItem.getChildren().clear();
 	}
 
+	/*
+	 * Method selects all products/meals from database, and puts them in List
+	 * It also checks if given List doesn't contains some products/meals to avoid duplicated list
+	 */
 	private List getMealList() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		if (productType == "Meals") {
@@ -106,17 +113,9 @@ public class ScheduleController {
 
 	}
 
-	private void query() {
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		Query query = session.createNativeQuery(
-				"INSERT INTO schedule(date, productid, producttype, time, userid) VALUES ('2017-03-03', 1, 'Meals', '16:15', 1)");
-		query.executeUpdate();
-		session.getTransaction().commit();
-		HibernateUtil.shutdown();
-	}
-
+	/*
+	 * Method fills TreeView with Meals/Products List
+	 */
 	private void fillTreeView() {
 
 		if (!rootItem.getChildren().isEmpty())
@@ -139,6 +138,9 @@ public class ScheduleController {
 		TreeView.setRoot(rootItem);
 	}
 
+	/*
+	 * Method returns values needed to be inserted into DB at addProduct method
+	 */
 	private String converter(String select, String from, String where, String where_text) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Query query = session.createNativeQuery(
@@ -148,6 +150,9 @@ public class ScheduleController {
 		return result;
 	}
 
+	/*
+	 * Method gets from DB products that goes into each specific Meal and fills RootItems(meals) with them
+	 */
 	private TreeItem<String> getMealProducts(String meal) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		TreeItem<String> mealItem = new TreeItem<String>(meal);
@@ -181,7 +186,10 @@ public class ScheduleController {
 
 	}
 
-	public String getParent() {
+	/*
+	 * Method returns parent of selected TreeItem(in this situation Meal name from picked product)
+	 */
+	private String getParent() {
 		if (!TreeView.getSelectionModel().isEmpty()) {
 			TreeItem<String> item = (TreeItem<String>) TreeView.getSelectionModel().getSelectedItem();
 			String parent = item.getParent().toString().substring(18, item.getParent().toString().length() - 2);
@@ -191,6 +199,9 @@ public class ScheduleController {
 
 	}
 
+	/*
+	 * Method returns logged UserID from DB
+	 */
 	private long selectUserID() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -202,6 +213,9 @@ public class ScheduleController {
 		return id;
 	}
 
+	/*
+	 * Method returns string of selected Meal from TreeView
+	 */
 	private String getSelectedMealValue() {
 		if (!TreeView.getSelectionModel().isEmpty()) {
 			String item = TreeView.getSelectionModel().getSelectedItem().toString();
@@ -215,7 +229,7 @@ public class ScheduleController {
 	 * Option to return to previous window
 	 */
 	@FXML
-	public void getBack() {
+	private void getBack() {
 		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/AppMenu.fxml"));
 		Pane pane = null;
 		try {
@@ -228,6 +242,11 @@ public class ScheduleController {
 		mainController.setScreen(pane);
 	}
 
+	/*
+	 * Method sets options in ChoiceBox 1 and ChoiceBox 2 Listeners checks if
+	 * selected position from List was changed If yes, picked name of
+	 * productType is set as reference
+	 */
 	private void choiceBox() {
 		ObservableList<String> checkbox_list = FXCollections.observableArrayList("Meals", "Bakery", "Beverage", "Diary",
 				"Meat", "Snack", "Other");
@@ -260,8 +279,13 @@ public class ScheduleController {
 		return Integer.parseInt(min.getText());
 	}
 
+	
+	/*
+	 * Method responsible for adding Meals to Schedule
+	 * It also checks If time/date/meal value is proper
+	 */
 	@FXML
-	public void addButton() {
+	private void addButton() {
 		if (selected_product != null && getSelectedMealValue() != null && !hour.getText().isEmpty()
 				&& !min.getText().isEmpty() && datePicker.getValue() != null && (getHour() >= 0 || getHour() <= 23) && (getMinute() >= 0 || getMinute() <= 59)) {
 
@@ -287,18 +311,23 @@ public class ScheduleController {
 			info.setText("No product or meal was picked!");
 	}
 
-	public void tes1() {
+	/*
+	 * Method observes if selected value in TreeView of products/meals changes
+	 */
+	private void observableMealValue() {
 		TreeView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue ov, Number value, Number new_value) {
 				if (getSelectedMealValue() != null && getParent().equals("null")) {
 					selected_product = getSelectedMealValue();
-					System.out.println(selected_product);
 				}
 			}
 		});
 	}
 
-	public BigInteger getProductId() {
+	/*
+	 * Method gets from DB Product/Meal ID
+	 */
+	private BigInteger getProductId() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		if (productType == "Meals") {
 			Query query = session.createNativeQuery("SELECT id FROM Meals WHERE name = '" + selected_product + "'");
@@ -314,6 +343,11 @@ public class ScheduleController {
 		}
 	}
 
+	
+	/*
+	 * Method checks if value in DatePicker is correct, If yes:
+	 * It sets TableColumns and puts in them data (time of meal and name of it), that was collected from DB
+	 */
 	private void getSchedule() {
 		if (datePicker.getValue() != null) {
 			data.clear();
@@ -348,12 +382,14 @@ public class ScheduleController {
 		}
 	}
 
-	private ObservableList data = FXCollections.observableArrayList();
-
+	
+	/*
+	 * Method deletes selected Meal from Schedule List
+	 */
 	@FXML
 	private void deleteButton() {
 		if (TableView.getSelectionModel().isEmpty()) {
-			info.setText("Pick product to remove it from Meal list!");
+			info.setText("Pick Meal to remove it from Meal list!");
 		} else {
 
 			Session session = HibernateUtil.getSessionFactory().openSession();
@@ -365,8 +401,11 @@ public class ScheduleController {
 			getSchedule();
 		}
 	}
-
-	public void getSelectedSchedule() {
+	
+	/*
+	 * Observable list of selection in Schedule TableView
+	 */
+	private void getSelectedSchedule() {
 		TableView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue ov, Number value, Number new_value) {
 				if (getSelectedMealSchedule() != null) {
@@ -376,6 +415,9 @@ public class ScheduleController {
 		});
 	}
 
+	/*
+	 * Method returns ID of selected item from Schedule TableView
+	 */
 	private BigInteger getSelectedMealSchedule() {
 		if (!TableView.getSelectionModel().isEmpty()) {
 			Schedule item = (Schedule) TableView.getSelectionModel().getSelectedItem();

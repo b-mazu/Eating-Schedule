@@ -76,37 +76,23 @@ public class CreateMealController {
 	private static TreeItem<String> rootItem = new TreeItem<String>();
 	private static List<String> ifSelected = new ArrayList<String>();
 
-	// private ProductListViewModel productListViewModel = new
-	// ProductListViewModel();
 
 	public void setMainController(MainController mainController) {
 		this.mainController = mainController;
 		choiceBox();
 		fillTreeView();
-		// updateButton();
 		info.setText("");
 	}
 
-	/*
-	 * UpdateButton is disabled if productNameField is not filled
-	 *
-	 * public void propertyBinding() {
-	 * productNameField.textProperty().bindBidirectional(productListViewModel.
-	 * getProductNameProperty());
-	 * updateButton.disableProperty().bind(productListViewModel.
-	 * getDisableUpdateButton());
-	 * addButton.disableProperty().bind(productListViewModel.getDisableAddButton
-	 * ()); }
-	 */
 
-	/*
-	 * Method inserts new product to database, before that it checks if product
-	 * of given name doesn't exist already in database
-	 */
 	private void clear() {
 		rootItem.getChildren().clear();
 	}
 
+	/*
+	 * Method selects all products from database, and puts them in List
+	 * It also checks if given List doesn't contains some products to avoid duplicated list
+	 */
 	private List getMealList() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Query query = session.createNativeQuery("SELECT name FROM Meals WHERE user_id = '" + selectUserID() + "'");
@@ -121,6 +107,9 @@ public class CreateMealController {
 		return mealList;
 	}
 
+	/*
+	 * Method fills TreeView with Meals List
+	 */
 	private void fillTreeView() {
 		if (!rootItem.getChildren().isEmpty())
 			rootItem.getChildren().clear();
@@ -133,6 +122,9 @@ public class CreateMealController {
 		TreeView.setRoot(rootItem);
 	}
 
+	/*
+	 * Method returns values needed to be inserted into DB at addProduct method
+	 */
 	private String converter(String select, String from, String where, String where_text) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Query query = session.createNativeQuery(
@@ -142,6 +134,9 @@ public class CreateMealController {
 		return result;
 	}
 
+	/*
+	 * Method gets from DB products that goes into each specific Meal and fills RootItems(meals) with them
+	 */
 	private TreeItem<String> getMealProducts(String meal) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		TreeItem<String> mealItem = new TreeItem<String>(meal);
@@ -173,9 +168,12 @@ public class CreateMealController {
 
 	}
 
+	/*
+	 * Method responsible for adding products to Meals
+	 * It also checks if Meal from TreeView and Product from ListView is selected
+	 */
 	@FXML
-	public void addProduct() {
-
+	private void addProduct() {
 		if (selected_product != null && getSelectedMealValue() != null) {
 
 			if (!getParent().equals("null"))
@@ -197,8 +195,11 @@ public class CreateMealController {
 			info.setText("No product or meal was picked!");
 	}
 
+	/*
+	 * Method responsible for deleting products from Meals
+	 */
 	@FXML
-	public void deleteProduct() {
+	private void deleteProduct() {
 		if (TreeView.getSelectionModel().isEmpty() || getParent().equals("null")) {
 			info.setText("Pick product to remove it from Meal list!");
 		} else if (!getParent().equals("null")) {
@@ -217,17 +218,22 @@ public class CreateMealController {
 		}
 	}
 
-	public String getParent() {
+	/*
+	 * Method returns parent of selected TreeItem(in this situation Meal name from picked product)
+	 */
+	private String getParent() {
 		if (!TreeView.getSelectionModel().isEmpty()) {
 			TreeItem<String> item = (TreeItem<String>) TreeView.getSelectionModel().getSelectedItem();
 			String parent = item.getParent().toString().substring(18, item.getParent().toString().length() - 2);
-			System.out.println("test: " + parent);
 			return parent;
 		} else
 			return null;
 
 	}
 
+	/*
+	 * Method returns logged UserID from DB
+	 */
 	private long selectUserID() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -239,6 +245,10 @@ public class CreateMealController {
 		return id;
 	}
 
+	/*
+	 * Method adds Meal to DB
+	 * It also checks if no Meal of given name is already in DB
+	 */
 	@FXML
 	private void addButton() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -246,7 +256,7 @@ public class CreateMealController {
 		Query query = session.createQuery(
 				"Select 1 from Meals WHERE name = '" + mealName.getText() + "' AND user_id = '" + selectUserID() + "'");
 		if (query.uniqueResult() != null) {
-			info.setText("That product name is already used!");
+			info.setText("That name of Meal is already used!");
 			HibernateUtil.shutdown();
 		} else {
 			query = session
@@ -255,11 +265,14 @@ public class CreateMealController {
 			query.executeUpdate();
 			session.getTransaction().commit();
 			HibernateUtil.shutdown();
-			info.setText("Product added!");
+			info.setText("Meal added!");
 			fillTreeView();
 		}
 	}
 
+	/*
+	 * Method returns string of selected Meal from TreeView
+	 */
 	private String getSelectedMealValue() {
 		if (!TreeView.getSelectionModel().isEmpty()) {
 			System.out.println(TreeView.getSelectionModel().getSelectedItem().toString());
@@ -271,11 +284,14 @@ public class CreateMealController {
 			return null;
 	}
 
-	public void tes1() {
+	/*
+	 * Method observes if selected value in TreeView changes
+	 * If does, it updates meal name in textField
+	 */
+	private void observableMealValue() {
 		TreeView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue ov, Number value, Number new_value) {
 				if (getSelectedMealValue() != null && getParent().equals("null")) {
-
 					mealName.setText(getSelectedMealValue());
 				}
 			}
@@ -344,7 +360,7 @@ public class CreateMealController {
 	 * Option to return to previous window
 	 */
 	@FXML
-	public void getBack() {
+	private void getBack() {
 		FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/AppMenu.fxml"));
 		Pane pane = null;
 		try {
@@ -386,7 +402,7 @@ public class CreateMealController {
 	 * yes, value of String is extracted to numbers If not, value of static
 	 * variables are set to 0
 	 */
-	public void isNumber() {
+	private void isNumber() {
 		if (kcalField.getText() == null || !isInteger(kcalField.getText())) {
 			kcal = 0;
 		} else
@@ -411,7 +427,7 @@ public class CreateMealController {
 	 * Method Selects all product names from selected productType of products in
 	 * ChoiceBox1
 	 */
-	public List selectProductList() {
+	private List selectProductList() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Query query = session
 				.createNativeQuery("SELECT productname FROM Products WHERE productType = '" + productType + "'");
@@ -460,7 +476,7 @@ public class CreateMealController {
 	 * Method fills TextField with data from database of picked product name
 	 * from ListView
 	 */
-	public void fillProductParameters() {
+	private void fillProductParameters() {
 		if (selected_product != null) {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 
@@ -487,7 +503,7 @@ public class CreateMealController {
 	/*
 	 * Listener sets name of selected Product from ListView to static variable
 	 */
-	public void pickProduct() {
+	private void pickProduct() {
 		listView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue ov, Number value, Number new_value) {
 				selected_product = (String) listView.getSelectionModel().getSelectedItem();

@@ -29,7 +29,7 @@ public class MenuScheduleController {
 	
 	private ObservableList<Schedule> data = FXCollections.observableArrayList();
 
-	public void getSchedule() {	
+	private void getSchedule() {	
 		if (DatePickerController.pickedDate != null) {
 			data.clear();		
 			timeTable.setCellValueFactory(new PropertyValueFactory<Schedule, Time>("time"));
@@ -75,7 +75,7 @@ public class MenuScheduleController {
 	}
 	
 	@FXML
-	private void button(){
+	private void showMealsButton(){
 		getSchedule();
 	}
 	
