@@ -18,6 +18,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ChoiceBox;
@@ -287,7 +288,7 @@ public class ScheduleController {
 	@FXML
 	private void addButton() {
 		if (selected_product != null && getSelectedMealValue() != null && !hour.getText().isEmpty()
-				&& !min.getText().isEmpty() && datePicker.getValue() != null && (getHour() >= 0 || getHour() <= 23) && (getMinute() >= 0 || getMinute() <= 59)) {
+				&& !min.getText().isEmpty() && datePicker.getValue() != null && getHour() >= 0 && getHour() <= 23 && getMinute() >= 0 && getMinute() <= 59) {
 
 			if (!getParent().equals("null"))
 				last_selected = getParent();
@@ -376,7 +377,12 @@ public class ScheduleController {
 			for (int i = 0; i < TimeList.size(); i++) {
 				data.add(new Schedule(IdListArray[i], TimeListArray[i], MealListArray[i]));
 			}
-			TableView.setItems(data);
+			
+			SortedList<Schedule> sortedData = new SortedList<Schedule>(data);
+			sortedData.comparatorProperty().bind(TableView.comparatorProperty());
+			TableView.setItems(sortedData);
+			TableView.getSortOrder().addAll(timeTable);
+			
 
 			HibernateUtil.shutdown();
 		}

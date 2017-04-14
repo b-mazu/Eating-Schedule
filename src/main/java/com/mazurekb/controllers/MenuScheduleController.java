@@ -12,6 +12,7 @@ import com.mazurekb.sql.Schedule;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -57,7 +58,10 @@ public class MenuScheduleController {
 			for (int i = 0; i < TimeList.size(); i++) {
 				data.add(new Schedule(IdListArray[i], TimeListArray[i], MealListArray[i]));
 			}
-			TableView.setItems(data);
+			SortedList<Schedule> sortedData = new SortedList<Schedule>(data);
+			sortedData.comparatorProperty().bind(TableView.comparatorProperty());
+			TableView.setItems(sortedData);
+			TableView.getSortOrder().addAll(timeTable);
 			
 			HibernateUtil.shutdown();
 		}
